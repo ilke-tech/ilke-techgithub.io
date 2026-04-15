@@ -1,6 +1,6 @@
 Name Surname : Ilke Kudret 
 Student number : 20231450 
-Department : 20231450 
+Department : ISE
 
 Homeworks 
 * [HW #2](./HW2.docx) 
