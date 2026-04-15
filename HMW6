@@ -1,0 +1,13 @@
+1. Which of the following, from outermost to innermost, are components of the box model?
+a. margin, border, padding, content
+
+2. Which of the following causes an element to display as a block of content with white space
+above and below?
+c. display: block;
+
+3. Which of the following pseudo-classes is the default state for a hyperlink that has been
+clicked?
+d. :visited
+
+4. Which HTML5 element has the purpose of providing tangential content?
+b. aside
