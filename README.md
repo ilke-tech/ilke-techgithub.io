@@ -5,4 +5,4 @@ Department : ISE
 Homeworks 
 * [HW #2](./HW2.docx) 
 * [HW #3](file:///Users/yilmazkudret/Desktop/HMW3.html) 
-* [HW #4](file:///Users/yilmazkudret/Desktop/HMW4.html)
+* [HW #3part2](file:///Users/yilmazkudret/Desktop/HMW4.html)
