@@ -1,0 +1,20 @@
+ 1. How would you link to the named fragment #jobs on the page employ.html from the home
+page of the site?
+a. <a href="employ.html#jobs">Jobs</a>
+
+2. Which pseudo-element can be used to generate content that precedes an element?
+b. :before
+
+3. Which of the following is a mobile web design best practice?
+c. Configure a single-column page layout.
+
+4. Find the Error. The page below is intended for the navigation area to display on the
+right side of the browser window. What needs to be changed to make this happen?
+ANSWER:
+/*FALSE*/
+nav { float: left;
+      width: 120px; }
+
+/* TRUE */
+nav { float: right;
+      width: 120px; }
