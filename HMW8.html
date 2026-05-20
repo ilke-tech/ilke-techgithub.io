@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favori Filmim – Doctor Strange</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: #0a0f1e;
+      color: #dce8f8;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(135deg, #0a0f1e 0%, #0d1a3a 50%, #0a0f1e 100%);
+      padding: 60px 40px 40px;
+      text-align: center;
+      border-bottom: 1px solid #1a2e5a;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(ellipse at center, rgba(30,80,200,0.10) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
+      letter-spacing: 0.12em;
+      color: #7ab4f0;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    header p.subtitle {
+      font-size: 1rem;
+      color: #3a5a8a;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+    main { max-width: 820px; margin: 0 auto; padding: 60px 24px; }
+    .movie-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 60px;
+      background: #0d1525;
+      border: 1px solid #1a3060;
+    }
+    .movie-table caption {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: #5a9ae0;
+      margin-bottom: 16px;
+      text-align: left;
+      letter-spacing: 0.05em;
+    }
+    .movie-table tr { border-bottom: 1px solid #152040; transition: background 0.2s; }
+    .movie-table tr:hover { background: #101c35; }
+    .movie-table td { padding: 18px 24px; vertical-align: top; }
+    .movie-table td:first-child {
+      width: 220px;
+      color: #5a9ae0;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: #0b1220;
+      border-right: 1px solid #1a3060;
+    }
+    .movie-table td:last-child { color: #c8daf0; font-size: 1rem; line-height: 1.7; }
+    .movie-table a {
+      color: #5a9ae0;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(90,154,224,0.3);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .movie-table a:hover { color: #90c4f8; border-color: #90c4f8; }
+    .rating-badge {
+      display: inline-block;
+      background: #0d2040;
+      color: #5a9ae0;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 4px 14px;
+      border: 1px solid #2a5090;
+      letter-spacing: 0.1em;
+    }
+    .analysis-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: #7ab4f0;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #1a3060;
+    }
+    .site-card {
+      background: #0d1525;
+      border: 1px solid #1a3060;
+      margin-bottom: 32px;
+      padding: 32px;
+    }
+    .site-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .badge-good {
+      background: #0a2a1a;
+      color: #4caf80;
+      border: 1px solid #1a5a3a;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+    }
+    .badge-bad {
+      background: #1a0d20;
+      color: #a07ad0;
+      border: 1px solid #3a2050;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+    }
+    .qa-list { list-style: none; }
+    .qa-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid #101c35;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 16px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .qa-list li:last-child { border-bottom: none; }
+    .qa-label {
+      color: #5a9ae0;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding-top: 2px;
+    }
+    .qa-value { color: #b8cce8; }
+    .reasons { padding-left: 0; list-style: none; }
+    .reasons li { padding: 4px 0 4px 16px; position: relative; color: #b8cce8; }
+    .reasons li::before { content: '—'; position: absolute; left: 0; color: #2a4a7a; }
+    footer { text-align: center; padding: 40px 24px 60px; border-top: 1px solid #101c35; }
+    footer a {
+      color: #5a9ae0;
+      text-decoration: none;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid rgba(90,154,224,0.3);
+      transition: color 0.2s;
+    }
+    footer a:hover { color: #90c4f8; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Favori Filmim</h1>
+    <p class="subtitle">ECC006 &middot; Ödev 8</p>
+  </header>
+  <main>
+    <table class="movie-table">
+      <caption>Film Bilgileri</caption>
+      <tr>
+        <td>Film Adı</td>
+        <td>Doctor Strange (Doktor Garip)</td>
+      </tr>
+      <tr>
+        <td>Yönetmen</td>
+        <td>Scott Derrickson</td>
+      </tr>
+      <tr>
+        <td>Erkek Başrol</td>
+        <td>Benedict Cumberbatch</td>
+      </tr>
+      <tr>
+        <td>Kadın Başrol</td>
+        <td>Rachel McAdams</td>
+      </tr>
+      <tr>
+        <td>Yaş Sınırı</td>
+        <td><span class="rating-badge">PG-13</span></td>
+      </tr>
+      <tr>
+        <td>Açıklama</td>
+        <td>
+          Doctor Strange (2016), gururu yüksek nöroşirürji uzmanı Dr. Stephen Strange'in
+          geçirdiği bir trafik kazasının ardından ellerini yitirmesiyle başlayan dönüşüm hikayesini
+          anlatır. Tibetli bir bilge olan Antik One'ın rehberliğinde büyü sanatını öğrenen Strange,
+          zamanla Kaecilius adlı karanlık bir büyücüye karşı Dünya'yı korumaya çalışır.
+          Çok boyutlu evrenler ve görsel yaratıcılığıyla Marvel Sinematik Evreni'nin
+          en özgün filmlerinden biridir.
+        </td>
+      </tr>
+      <tr>
+        <td>Film Eleştirisi</td>
+        <td>
+          <a href="https://www.rottentomatoes.com/m/doctor_strange_2016" target="_blank">
+            Rotten Tomatoes — Doctor Strange Eleştirilerini Oku
+          </a>
+        </td>
+      </tr>
+    </table>
+ 
+    <h2 class="analysis-title">Web Sayfası Analizi</h2>
+ 
+    <div class="site-card">
+      <h3>Apple.com <span class="badge-good">Beğenilen</span></h3>
+      <ul class="qa-list">
+        <li>
+          <span class="qa-label">URL</span>
+          <span class="qa-value">https://www.apple.com</span>
+        </li>
+        <li>
+          <span class="qa-label">Tablo Kullanımı</span>
+          <span class="qa-value">Geleneksel HTML tablosu kullanılmaz; düzen CSS Grid ve Flexbox ile sağlanır. Bu daha modern ve esnek bir yapı sunar.</span>
+        </li>
+        <li>
+          <span class="qa-label">CSS Kullanımı</span>
+          <span class="qa-value">Yoğun biçimde CSS kullanılır. Sayfa düzeni, tipografi, animasyonlar ve duyarlı tasarım tamamen CSS ile yönetilir.</span>
+        </li>
+        <li>
+          <span class="qa-label">Neden Beğenildi?</span>
+          <span class="qa-value">
+            <ul class="reasons">
+              <li>Minimalist tasarım; içerik ön plana çıkar, dikkat dağıtıcı unsur yoktur.</li>
+              <li>Yüksek kaliteli görseller ve akıcı animasyonlar kullanıcı deneyimini güçlendirir.</li>
+              <li>Tutarlı renk paleti ve tipografi marka kimliğiyle mükemmel uyum sağlar.</li>
+            </ul>
+          </span>
+        </li>
+        <li>
+          <span class="qa-label">İyileştirme Önerisi</span>
+          <span class="qa-value">Sayfa zaten son derece kaliteli; önemli bir iyileştirme gerekmez.</span>
+        </li>
+      </ul>
+    </div>
+ 
+    <div class="site-card">
+      <h3>craigslist.org <span class="badge-bad">Beğenilmeyen</span></h3>
+      <ul class="qa-list">
+        <li>
+          <span class="qa-label">URL</span>
+          <span class="qa-value">https://www.craigslist.org</span>
+        </li>
+        <li>
+          <span class="qa-label">Tablo Kullanımı</span>
+          <span class="qa-value">Evet, tablo öğeleri sayfa düzenini oluşturmak için kullanılır. Kategoriler tablolarla düzenlenmiştir; bu eski bir yaklaşımdır.</span>
+        </li>
+        <li>
+          <span class="qa-label">CSS Kullanımı</span>
+          <span class="qa-value">Çok sınırlı CSS kullanılır; yalnızca temel metin renkleri ve bağlantı stilleri belirlenmiştir.</span>
+        </li>
+        <li>
+          <span class="qa-label">Neden Beğenilmedi?</span>
+          <span class="qa-value">
+            <ul class="reasons">
+              <li>Görsel tasarım neredeyse hiç yoktur; sayfa 1990'ların web estetiğini andırır.</li>
+              <li>Metin yoğunluğu çok fazla olduğundan göz yorulur.</li>
+              <li>Mobil cihazlar için hiçbir duyarlı tasarım uyarlaması yapılmamıştır.</li>
+            </ul>
+          </span>
+        </li>
+        <li>
+          <span class="qa-label">İyileştirme Önerisi</span>
+          <span class="qa-value">Kart tabanlı ilan düzeni benimsenmeli; mobil uyumlu bir düzen ve modern renk paleti kullanılmalıdır.</span>
+        </li>
+      </ul>
+    </div>
+  </main>
+  <footer>
+    <a href="mailto:20231450@std.neu.edu.tr">20231450@std.neu.edu.tr</a>
+  </footer>
+</body>
+</html>
