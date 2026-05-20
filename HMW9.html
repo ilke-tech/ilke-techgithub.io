@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Müzik Anketi</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #0a0f1e;
+      color: #dce8f8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 16px;
+    }
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.8rem;
+      color: #7ab4f0;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .page-sub {
+      font-size: 0.9rem;
+      color: #3a5a8a;
+      margin-bottom: 40px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+    form {
+      background: #0d1525;
+      width: 100%;
+      max-width: 580px;
+      border: 1px solid #1a3060;
+      padding: 40px 40px 32px;
+    }
+    .field-group { margin-bottom: 24px; }
+    label.field-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #5a9ae0;
+      margin-bottom: 8px;
+    }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #1a3060;
+      background: #0a1020;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: #dce8f8;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus, input[type="email"]:focus { border-color: #5a9ae0; }
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #1a3060;
+      background: #0a1020;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: #dce8f8;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    textarea:focus { border-color: #5a9ae0; }
+    fieldset {
+      border: 1px solid #1a3060;
+      padding: 20px 20px 16px;
+      margin-bottom: 24px;
+      background: #0a1020;
+    }
+    legend {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem;
+      color: #7ab4f0;
+      padding: 0 8px;
+    }
+    .choice-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: #b8cce8;
+    }
+    input[type="radio"], input[type="checkbox"] {
+      accent-color: #5a9ae0;
+      width: 16px; height: 16px;
+      cursor: pointer;
+    }
+    select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #1a3060;
+      background: #0a1020;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: #dce8f8;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    select:focus { border-color: #5a9ae0; }
+    .divider { border: none; border-top: 1px solid #152040; margin: 32px 0; }
+    .btn-row { display: flex; gap: 12px; margin-top: 8px; }
+    input[type="submit"] {
+      flex: 1;
+      padding: 12px 24px;
+      background: #1a3a7a;
+      color: #dce8f8;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    input[type="submit"]:hover { background: #2a5aaa; }
+    input[type="reset"] {
+      flex: 1;
+      padding: 12px 24px;
+      background: transparent;
+      color: #3a5a8a;
+      border: 1px solid #1a3060;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    input[type="reset"]:hover { border-color: #5a9ae0; color: #5a9ae0; }
+    footer { margin-top: 40px; font-size: 0.85rem; color: #3a5a8a; }
+    footer a { color: #5a9ae0; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1 class="page-title">Müzik Anketi</h1>
+  <p class="page-sub">ECC006 &middot; Ödev 9</p>
+ 
+  <form action="http://www.uyar.com/teaching/ecc006/2017spring/login.php" method="post">
+ 
+    <div class="field-group">
+      <label class="field-label" for="isim">Ad Soyad</label>
+      <input type="text" id="isim" name="isim" placeholder="Adınız ve soyadınız">
+    </div>
+ 
+    <div class="field-group">
+      <label class="field-label" for="eposta">E-posta Adresi</label>
+      <input type="email" id="eposta" name="eposta" placeholder="20231450@std.neu.edu.tr">
+    </div>
+ 
+    <hr class="divider">
+ 
+    <fieldset>
+      <legend>Favori Müzik Türlerinizi Seçin</legend>
+      <label class="choice-item"><input type="checkbox" name="tur" value="pop"> Pop</label>
+      <label class="choice-item"><input type="checkbox" name="tur" value="klasik"> Klasik</label>
+      <label class="choice-item"><input type="checkbox" name="tur" value="rock"> Rock</label>
+      <label class="choice-item"><input type="checkbox" name="tur" value="folk"> Folk</label>
+      <label class="choice-item"><input type="checkbox" name="tur" value="rap"> Rap</label>
+    </fieldset>
+ 
+    <fieldset>
+      <legend>Müzik CD'si Ne Sıklıkla Satın Alırsınız?</legend>
+      <label class="choice-item"><input type="radio" name="sıklık" value="haftalık"> Her hafta</label>
+      <label class="choice-item"><input type="radio" name="sıklık" value="birkaç_yıllık" checked> Yılda birkaç kez</label>
+      <label class="choice-item"><input type="radio" name="sıklık" value="aylık"> Her ay</label>
+      <label class="choice-item"><input type="radio" name="sıklık" value="almam"> Hiç almam</label>
+    </fieldset>
+ 
+    <div class="field-group">
+      <label class="field-label" for="konum">Müzik Dinlediğiniz Yerler</label>
+      <select id="konum" name="konum" size="3" multiple>
+        <option value="ev">Evde</option>
+        <option value="araba">Arabada</option>
+        <option value="mp3">MP3 Çalarla (Her yerde)</option>
+        <option value="konser">Konserde</option>
+        <option value="is">İşyerinde</option>
+      </select>
+    </div>
+ 
+    <hr class="divider">
+ 
+    <div class="field-group">
+      <label class="field-label" for="yorum">Müziğin Hayatınızdaki Yeri Nedir?</label>
+      <textarea id="yorum" name="yorum" cols="60" rows="3" placeholder="Müziğin sizin için ne ifade ettiğini birkaç cümleyle anlatın…"></textarea>
+    </div>
+ 
+    <div class="btn-row">
+      <input type="submit" value="Gönder">
+      <input type="reset" value="Sıfırla">
+    </div>
+ 
+  </form>
+ 
+  <footer>
+    <a href="mailto:20231450@std.neu.edu.tr">20231450@std.neu.edu.tr</a>
+  </footer>
+</body>
+</html>
