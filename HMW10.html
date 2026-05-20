@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Ticaret Anketi Sonuçları</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600&family=Instrument+Sans:wght@300;400;500&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0f1e;
+      --surface: #0d1525;
+      --surface2: #0a1020;
+      --border: #1a3060;
+      --accent: #5a9ae0;
+      --accent-light: #7ab4f0;
+      --text: #dce8f8;
+      --muted: #3a5a8a;
+      --text-dim: #b8cce8;
+    }
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    header {
+      background: #060c1a;
+      color: var(--text);
+      padding: 64px 40px 48px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 2.8rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      color: var(--accent-light);
+    }
+    header p { font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 300; color: var(--muted); }
+    main { max-width: 900px; margin: 0 auto; padding: 60px 24px 80px; }
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.7rem;
+      font-weight: 400;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--accent-light);
+    }
+    .section-sub {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 24px 20px;
+      text-align: center;
+    }
+    .stat-number {
+      font-family: 'Fraunces', serif;
+      font-size: 2.6rem;
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
+    .data-section { margin-bottom: 48px; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-bottom: 8px; }
+    .data-table thead tr { background: #060c1a; }
+    .data-table th {
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 500;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table th:last-child, .data-table td:last-child { text-align: right; }
+    .data-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    .data-table tbody tr:hover { background: var(--surface); }
+    .data-table td { padding: 12px 16px; color: var(--text-dim); }
+    .bar-cell { width: 200px; }
+    .bar-wrap { background: #101c35; height: 8px; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--accent); }
+    .pct { font-size: 0.85rem; color: var(--muted); min-width: 40px; display: inline-block; text-align: right; }
+    .conclusions {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      padding: 32px;
+      margin-bottom: 48px;
+    }
+    .conclusions h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-bottom: 16px;
+      color: var(--accent-light);
+    }
+    .conclusions p { font-size: 0.97rem; color: var(--text-dim); line-height: 1.8; margin-bottom: 12px; }
+    .conclusions p:last-child { margin-bottom: 0; }
+    .sources { margin-bottom: 48px; }
+    .sources ul { list-style: none; padding: 0; }
+    .sources li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--muted);
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+    }
+    .sources li::before { content: '→'; color: var(--accent); flex-shrink: 0; }
+    .sources a { color: var(--accent); text-decoration: none; }
+    .sources a:hover { text-decoration: underline; }
+    footer { background: #060c1a; color: var(--muted); text-align: center; padding: 32px 24px; font-size: 0.85rem; border-top: 1px solid var(--border); }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>E-Ticaret Anketi</h1>
+    <p>ECC006 &middot; Ödev 10 &middot; 20 Katılımcı</p>
+  </header>
+  <main>
+ 
+    <span class="section-sub">Genel Bakış</span>
+    <h2 class="section-title">Ankete Katılan 20 Kişinin Özeti</h2>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-number">20</div><div class="stat-label">Toplam Katılımcı</div></div>
+      <div class="stat-card"><div class="stat-number">17</div><div class="stat-label">Online Alışveriş Yapan</div></div>
+      <div class="stat-card"><div class="stat-number">3</div><div class="stat-label">Baktı Ama Almadı</div></div>
+      <div class="stat-card"><div class="stat-number">%85</div><div class="stat-label">Katılım Oranı</div></div>
+    </div>
+ 
+    <div class="data-section">
+      <span class="section-sub">Soru A & B</span>
+      <h2 class="section-title">Online Alışveriş Durumu</h2>
+      <table class="data-table">
+        <thead><tr><th>Durum</th><th>Kişi</th><th class="bar-cell">Oran</th><th>Yüzde</th></tr></thead>
+        <tbody>
+          <tr><td>Online alışveriş yaptı</td><td>17</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:85%"></div></div></td><td><span class="pct">%85</span></td></tr>
+          <tr><td>Baktı ama satın almadı</td><td>3</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:15%"></div></div></td><td><span class="pct">%15</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+ 
+    <div class="data-section">
+      <span class="section-sub">Soru C</span>
+      <h2 class="section-title">Alışveriş Sıklığı</h2>
+      <table class="data-table">
+        <thead><tr><th>Sıklık</th><th>Kişi</th><th class="bar-cell">Oran</th><th>Yüzde</th></tr></thead>
+        <tbody>
+          <tr><td>Haftada bir</td><td>2</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:12%"></div></div></td><td><span class="pct">%12</span></td></tr>
+          <tr><td>Ayda bir</td><td>7</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:41%"></div></div></td><td><span class="pct">%41</span></td></tr>
+          <tr><td>Yılda bir</td><td>8</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:47%"></div></div></td><td><span class="pct">%47</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+ 
+    <div class="data-section">
+      <span class="section-sub">Soru D</span>
+      <h2 class="section-title">Yaş Aralığı Dağılımı</h2>
+      <table class="data-table">
+        <thead><tr><th>Yaş Aralığı</th><th>Kişi</th><th class="bar-cell">Oran</th><th>Yüzde</th></tr></thead>
+        <tbody>
+          <tr><td>18–25</td><td>8</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:40%"></div></div></td><td><span class="pct">%40</span></td></tr>
+          <tr><td>26–39</td><td>7</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:35%"></div></div></td><td><span class="pct">%35</span></td></tr>
+          <tr><td>40–50</td><td>3</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:15%"></div></div></td><td><span class="pct">%15</span></td></tr>
+          <tr><td>50 yaş üstü</td><td>2</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:10%"></div></div></td><td><span class="pct">%10</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+ 
+    <div class="data-section">
+      <span class="section-sub">Soru E</span>
+      <h2 class="section-title">Cinsiyet Dağılımı</h2>
+      <table class="data-table">
+        <thead><tr><th>Cinsiyet</th><th>Kişi</th><th class="bar-cell">Oran</th><th>Yüzde</th></tr></thead>
+        <tbody>
+          <tr><td>Kadın</td><td>11</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:55%"></div></div></td><td><span class="pct">%55</span></td></tr>
+          <tr><td>Erkek</td><td>9</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:45%"></div></div></td><td><span class="pct">%45</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+ 
+    <div class="data-section">
+      <span class="section-sub">Soru F</span>
+      <h2 class="section-title">Eğitim Düzeyi</h2>
+      <table class="data-table">
+        <thead><tr><th>Eğitim Düzeyi</th><th>Kişi</th><th class="bar-cell">Oran</th><th>Yüzde</th></tr></thead>
+        <tbody>
+          <tr><td>Lise</td><td>4</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:20%"></div></div></td><td><span class="pct">%20</span></td></tr>
+          <tr><td>Üniversite (devam ediyor)</td><td>7</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:35%"></div></div></td><td><span class="pct">%35</span></td></tr>
+          <tr><td>Üniversite mezunu</td><td>7</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:35%"></div></div></td><td><span class="pct">%35</span></td></tr>
+          <tr><td>Lisansüstü</td><td>2</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:10%"></div></div></td><td><span class="pct">%10</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+ 
+    <div class="data-section">
+      <span class="section-sub">Soru G</span>
+      <h2 class="section-title">Favori Online Alışveriş Sitesi</h2>
+      <table class="data-table">
+        <thead><tr><th>Site</th><th>Kişi</th><th class="bar-cell">Oran</th><th>Yüzde</th></tr></thead>
+        <tbody>
+          <tr><td>Trendyol</td><td>9</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:45%"></div></div></td><td><span class="pct">%45</span></td></tr>
+          <tr><td>Hepsiburada</td><td>5</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:25%"></div></div></td><td><span class="pct">%25</span></td></tr>
+          <tr><td>Amazon</td><td>3</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:15%"></div></div></td><td><span class="pct">%15</span></td></tr>
+          <tr><td>Diğer</td><td>3</td><td class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:15%"></div></div></td><td><span class="pct">%15</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+ 
+    <div class="conclusions">
+      <h2>Yorum ve Sonuçlar</h2>
+      <p>Anketten elde edilen en çarpıcı bulgu, katılımcıların <strong>%85'inin</strong> en az bir kez online alışveriş yapmış olmasıdır. Bu oran, Pew Internet &amp; American Life Project'in yetişkin internet kullanıcıları arasındaki e-ticaret verilerini destekler niteliktedir.</p>
+      <p><strong>18–25 yaş grubu</strong> en aktif dijital alıcı kesimi olarak öne çıkmaktadır (%40). Bu durum, genç tüketicilerin mobil uygulama ve sosyal medya entegrasyonuna olan aşinalığıyla doğrudan ilişkilidir.</p>
+      <p>En popüler platform olarak <strong>Trendyol</strong>'un (%45) öne çıkması, yerel e-ticaret platformlarının küresel rakiplerine kıyasla yerelleştirilmiş ödeme yöntemleri ve hızlı teslimat avantajları sayesinde tercih edildiğini göstermektedir.</p>
+      <p>Alışveriş yapmayan %15'lik kesimde güvenlik kaygıları ve iade süreçlerine duyulan güvensizlik öne çıkan engellerdir. Bu bulgu E-Commerce Times'ın tüketici güvenine ilişkin raporlarıyla uyuşmaktadır.</p>
+    </div>
+ 
+    <div class="sources">
+      <span class="section-sub">Araştırma Kaynakları</span>
+      <h2 class="section-title">Yararlanılan Kaynaklar</h2>
+      <ul>
+        <li>Pew Internet &amp; American Life Project — <a href="http://pewinternet.org" target="_blank">pewinternet.org</a></li>
+        <li>eMarketer E-Ticaret İstatistikleri — <a href="http://www.emarketer.com/Articles" target="_blank">emarketer.com/Articles</a></li>
+        <li>ClickZ Dijital Pazarlama Araştırmaları — <a href="http://www.clickz.com" target="_blank">clickz.com</a></li>
+        <li>E-Commerce Times — <a href="http://www.ecommercetimes.com" target="_blank">ecommercetimes.com</a></li>
+      </ul>
+    </div>
+ 
+  </main>
+  <footer>
+    <a href="mailto:20231450@std.neu.edu.tr">20231450@std.neu.edu.tr</a>
+    &nbsp;&middot;&nbsp; ECC006 Ödev 10
+  </footer>
+</body>
+</html>
