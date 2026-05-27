@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notaların Dünyası</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue-100: #b5d4f4; --blue-200: #85b7eb; --blue-300: #5599df;
+  --blue-400: #378add; --blue-500: #2272c3; --blue-600: #185fa5;
+  --blue-700: #10487e; --blue-800: #0c447c;
+  --dark: #040e1e; --text: #e8f2ff; --text-muted: #7ba8d4;
+  --card-bg: rgba(10,30,65,0.7); --radius: 16px;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--dark); color: var(--text); font-family: var(--font-body); line-height: 1.7; overflow-x: hidden; }
+a, button { cursor: pointer; }
+
+.page { display: none; min-height: 100vh; }
+.page.active { display: block; }
+
+
+.navbar { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1rem 3rem; background: rgba(4,14,30,0.92); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(55,138,221,0.2); }
+.nav-logo { font-family: var(--font-display); font-size: 1.3rem; color: var(--blue-200); cursor: pointer; }
+.nav-links { display: flex; gap: .25rem; list-style: none; }
+.nav-links a { padding: .45rem 1rem; border-radius: 50px; font-size: .9rem; color: var(--text-muted); transition: all .25s; cursor: pointer; }
+.nav-links a:hover, .nav-links a.active { background: rgba(55,138,221,0.15); color: var(--blue-200); }
+.nav-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--blue-200); }
+
+
+.hero { position: relative; min-height: 92vh; display: flex; align-items: center; justify-content: space-between; padding: 5rem 3rem 4rem; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 70% 50%, rgba(24,95,165,.25) 0%, transparent 70%), linear-gradient(180deg,#040e1e 0%,#061628 100%); z-index: 0; }
+.wave { position: absolute; border-radius: 50%; border: 1px solid rgba(55,138,221,.12); animation: ripple 6s ease-in-out infinite; }
+.wave1 { width:500px; height:500px; top:10%; right:5%; }
+.wave2 { width:700px; height:700px; top:-5%; right:-5%; animation-delay:1.5s; }
+.wave3 { width:900px; height:900px; top:-20%; right:-15%; animation-delay:3s; }
+@keyframes ripple { 0%,100%{transform:scale(1);opacity:.6} 50%{transform:scale(1.04);opacity:.2} }
+.hero-content { position: relative; z-index: 2; max-width: 580px; }
+.hero-tag { font-size:.75rem; letter-spacing:4px; color:var(--blue-400); margin-bottom:1rem; font-weight:500; }
+.hero-title { font-family:var(--font-display); font-size:clamp(2.6rem,5vw,4rem); line-height:1.15; color:#fff; margin-bottom:1.25rem; }
+.hero-title em { font-style:italic; color:var(--blue-300); }
+.hero-sub { color:var(--text-muted); font-size:1.05rem; max-width:460px; margin-bottom:2rem; }
+.hero-btns { display:flex; gap:1rem; flex-wrap:wrap; }
+.btn-primary { padding:.85rem 2rem; background:var(--blue-600); color:#fff; border-radius:50px; font-size:.95rem; font-weight:500; transition:all .25s; border:none; font-family:var(--font-body); }
+.btn-primary:hover { background:var(--blue-500); transform:translateY(-2px); }
+.btn-ghost { padding:.85rem 1.75rem; border:1px solid rgba(55,138,221,.4); color:var(--blue-200); border-radius:50px; font-size:.95rem; transition:all .25s; background:transparent; font-family:var(--font-body); }
+.btn-ghost:hover { background:rgba(55,138,221,.12); }
+.hero-visual { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:2rem; }
+.vinyl { width:240px; height:240px; border-radius:50%; background:conic-gradient(from 0deg,#0a1a35,#102a50,#1a3d6e,#0a1a35,#0c2244,#0a1a35); display:flex; align-items:center; justify-content:center; animation:spin 8s linear infinite; box-shadow:0 0 60px rgba(24,95,165,.4); position:relative; }
+.vinyl::before { content:''; position:absolute; inset:20px; border-radius:50%; border:1px solid rgba(55,138,221,.3); }
+.vinyl::after  { content:''; position:absolute; inset:50px; border-radius:50%; border:1px solid rgba(55,138,221,.2); }
+.vinyl-inner { width:130px; height:130px; border-radius:50%; background:conic-gradient(from 0deg,#061220,#0c2040,#1a3560,#061220); }
+.vinyl-center { position:absolute; width:28px; height:28px; border-radius:50%; background:var(--blue-400); z-index:2; }
+@keyframes spin { to{transform:rotate(360deg)} }
+.sound-bars { display:flex; align-items:flex-end; gap:5px; height:48px; }
+.sound-bars span { width:6px; border-radius:3px; background:var(--blue-400); animation:bar 1.2s ease-in-out infinite alternate; }
+.sound-bars span:nth-child(1){height:20px} .sound-bars span:nth-child(2){height:36px;animation-delay:.15s}
+.sound-bars span:nth-child(3){height:48px;animation-delay:.3s} .sound-bars span:nth-child(4){height:28px;animation-delay:.45s}
+.sound-bars span:nth-child(5){height:44px;animation-delay:.6s} .sound-bars span:nth-child(6){height:18px;animation-delay:.75s}
+.sound-bars span:nth-child(7){height:32px;animation-delay:.9s}
+@keyframes bar { from{transform:scaleY(.3);opacity:.4} to{transform:scaleY(1);opacity:1} }
+
+
+.stats-strip { display:flex; align-items:center; justify-content:center; padding:2.5rem 3rem; background:rgba(10,30,65,.6); border-top:1px solid rgba(55,138,221,.15); border-bottom:1px solid rgba(55,138,221,.15); flex-wrap:wrap; gap:1rem; }
+.stat { display:flex; flex-direction:column; align-items:center; padding:0 3rem; }
+.stat-num { font-family:var(--font-display); font-size:2.2rem; color:var(--blue-300); font-weight:700; }
+.stat-label { font-size:.8rem; color:var(--text-muted); letter-spacing:1px; margin-top:.2rem; }
+.stat-divider { width:1px; height:50px; background:rgba(55,138,221,.25); }
+
+
+.features { padding:6rem 3rem; max-width:1100px; margin:0 auto; }
+.section-title { font-family:var(--font-display); font-size:clamp(1.8rem,3vw,2.6rem); text-align:center; margin-bottom:3rem; color:#fff; }
+.section-title em { font-style:italic; color:var(--blue-300); }
+.cards-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; }
+.card { display:block; border-radius:var(--radius); padding:2rem; border:1px solid rgba(55,138,221,.2); transition:transform .3s,box-shadow .3s; cursor:pointer; }
+.card:hover { transform:translateY(-6px); box-shadow:0 20px 60px rgba(24,95,165,.25); }
+.card-blue{background:linear-gradient(135deg,rgba(24,95,165,.3),rgba(10,30,65,.8))}
+.card-mid{background:linear-gradient(135deg,rgba(12,68,124,.35),rgba(10,30,65,.8))}
+.card-dark{background:linear-gradient(135deg,rgba(4,44,83,.5),rgba(4,14,30,.9))}
+.card-icon{font-size:2.5rem;margin-bottom:1rem}
+.card h3{font-family:var(--font-display);font-size:1.3rem;color:var(--blue-100);margin-bottom:.75rem}
+.card p{color:var(--text-muted);font-size:.95rem;margin-bottom:1.25rem}
+.card-link{color:var(--blue-300);font-size:.9rem;font-weight:500}
+
+
+.quote-section{text-align:center;padding:5rem 3rem;background:linear-gradient(180deg,transparent,rgba(24,95,165,.07),transparent)}
+blockquote{font-family:var(--font-display);font-size:clamp(1.2rem,2.5vw,1.7rem);font-style:italic;color:var(--blue-100);max-width:700px;margin:0 auto 1rem;line-height:1.6}
+.quote-mark{font-size:2.5rem;color:var(--blue-500);vertical-align:middle;line-height:0}
+cite{color:var(--text-muted);font-size:.9rem;letter-spacing:1px}
+
+
+.footer{padding:2.5rem 3rem;border-top:1px solid rgba(55,138,221,.15);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;color:var(--text-muted);font-size:.9rem}
+.footer-nav{display:flex;gap:1.5rem}
+.footer-nav a:hover{color:var(--blue-300)}
+
+
+.page-header{padding:7rem 3rem 4rem;background:linear-gradient(135deg,rgba(24,95,165,.15) 0%,transparent 60%);border-bottom:1px solid rgba(55,138,221,.15)}
+.page-header .tag{font-size:.75rem;letter-spacing:4px;color:var(--blue-400);font-weight:500;margin-bottom:.75rem}
+.page-header h1{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);color:#fff;margin-bottom:1rem}
+.page-header h1 em{font-style:italic;color:var(--blue-300)}
+.page-header p{color:var(--text-muted);max-width:540px;font-size:1rem}
+.page-content{max-width:1100px;margin:0 auto;padding:4rem 3rem}
+
+
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-avatar{width:300px;height:300px;border-radius:50%;background:linear-gradient(135deg,var(--blue-800),var(--blue-600));display:flex;align-items:center;justify-content:center;font-size:7rem;margin:0 auto;border:3px solid rgba(55,138,221,.3);box-shadow:0 0 60px rgba(24,95,165,.3)}
+.about-text h2{font-family:var(--font-display);font-size:2rem;color:#fff;margin-bottom:1rem}
+.about-text h2 em{font-style:italic;color:var(--blue-300)}
+.about-text p{color:var(--text-muted);margin-bottom:1rem;line-height:1.8}
+.timeline{margin-top:2rem;border-left:2px solid rgba(55,138,221,.3);padding-left:1.5rem}
+.timeline-item{margin-bottom:1.5rem;position:relative}
+.timeline-item::before{content:'';position:absolute;left:-1.9rem;top:.4rem;width:12px;height:12px;border-radius:50%;background:var(--blue-500);border:2px solid var(--dark)}
+.timeline-year{font-size:.75rem;color:var(--blue-400);letter-spacing:2px;font-weight:500}
+.timeline-text{color:var(--text-muted);font-size:.95rem}
+
+
+.genre-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+.genre-card{border-radius:var(--radius);padding:1.75rem;border:1px solid rgba(55,138,221,.2);background:var(--card-bg);transition:transform .3s,border-color .3s}
+.genre-card:hover{transform:translateY(-4px);border-color:rgba(55,138,221,.5)}
+.genre-emoji{font-size:2.2rem;margin-bottom:.75rem}
+.genre-card h3{font-family:var(--font-display);font-size:1.2rem;color:var(--blue-100);margin-bottom:.5rem}
+.genre-card p{color:var(--text-muted);font-size:.9rem;line-height:1.6}
+.genre-badge{display:inline-block;margin-top:.75rem;padding:.25rem .75rem;border-radius:50px;font-size:.75rem;background:rgba(24,95,165,.25);color:var(--blue-200);border:1px solid rgba(55,138,221,.3)}
+
+.instrument-list{display:flex;flex-direction:column;gap:1.5rem}
+.instrument-item{display:flex;align-items:flex-start;gap:1.5rem;background:var(--card-bg);border-radius:var(--radius);border:1px solid rgba(55,138,221,.2);padding:1.75rem;transition:transform .3s}
+.instrument-item:hover{transform:translateX(6px)}
+.instrument-icon{font-size:2.5rem;min-width:50px;text-align:center}
+.instrument-info{flex:1}
+.instrument-info h3{font-family:var(--font-display);font-size:1.2rem;color:var(--blue-100);margin-bottom:.5rem}
+.instrument-info p{color:var(--text-muted);font-size:.93rem}
+.progress-bar{margin-top:.75rem;height:6px;background:rgba(55,138,221,.15);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--blue-600),var(--blue-300))}
+
+.playlist-container{background:var(--card-bg);border-radius:var(--radius);border:1px solid rgba(55,138,221,.2);overflow:hidden;margin-bottom:2rem}
+.playlist-header{padding:1.5rem 2rem;background:rgba(24,95,165,.15);border-bottom:1px solid rgba(55,138,221,.15);display:flex;justify-content:space-between;align-items:center}
+.playlist-header h3{font-family:var(--font-display);font-size:1.2rem;color:var(--blue-100)}
+.track{display:flex;align-items:center;gap:1rem;padding:1rem 2rem;border-bottom:1px solid rgba(55,138,221,.08);cursor:pointer;transition:background .2s}
+.track:hover{background:rgba(55,138,221,.07)}
+.track:last-child{border-bottom:none}
+.track-num{min-width:24px;color:var(--text-muted);font-size:.85rem}
+.track-icon{font-size:1.4rem}
+.track-info{flex:1}
+.track-title{color:var(--text);font-size:.95rem;font-weight:500}
+.track-artist{color:var(--text-muted);font-size:.82rem}
+.track-duration{color:var(--text-muted);font-size:.85rem}
+.now-playing{background:linear-gradient(135deg,rgba(24,95,165,.3),rgba(10,30,65,.8));border:1px solid rgba(55,138,221,.35);border-radius:var(--radius);padding:2rem;display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem}
+.now-disc{width:80px;height:80px;border-radius:50%;background:conic-gradient(from 0deg,#0a1a35,#1a3d6e,#0a1a35);display:flex;align-items:center;justify-content:center;font-size:1.8rem;animation:spin 5s linear infinite;flex-shrink:0;box-shadow:0 0 30px rgba(24,95,165,.4)}
+.now-info{flex:1}
+.now-title{font-family:var(--font-display);font-size:1.3rem;color:#fff}
+.now-artist{color:var(--text-muted);font-size:.9rem;margin-top:.25rem}
+.now-controls{display:flex;gap:.75rem;margin-top:.75rem}
+.ctrl-btn{width:36px;height:36px;border-radius:50%;background:rgba(55,138,221,.15);border:1px solid rgba(55,138,221,.3);color:var(--blue-200);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.ctrl-btn:hover{background:rgba(55,138,221,.3)}
+.ctrl-btn.play-btn{width:46px;height:46px;background:var(--blue-600);font-size:1.1rem}
+.ctrl-btn.play-btn:hover{background:var(--blue-500)}
+
+.contact-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:3rem}
+.contact-info h2{font-family:var(--font-display);font-size:1.8rem;color:#fff;margin-bottom:1rem}
+.contact-info p{color:var(--text-muted);margin-bottom:2rem}
+.contact-item{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;color:var(--text-muted)}
+.contact-item-icon{width:44px;height:44px;border-radius:50%;background:rgba(24,95,165,.2);border:1px solid rgba(55,138,221,.3);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.contact-form{background:var(--card-bg);border-radius:var(--radius);border:1px solid rgba(55,138,221,.2);padding:2rem}
+.form-group{margin-bottom:1.25rem}
+.form-group label{display:block;font-size:.85rem;color:var(--blue-300);margin-bottom:.5rem;letter-spacing:.5px}
+.form-group input,.form-group textarea{width:100%;padding:.85rem 1rem;background:rgba(10,30,65,.6);border:1px solid rgba(55,138,221,.25);border-radius:10px;color:var(--text);font-family:var(--font-body);font-size:.95rem;transition:border-color .25s;outline:none}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--blue-500)}
+.form-group textarea{resize:vertical;min-height:130px}
+
+.error-page{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem}
+.error-container{max-width:560px}
+.error-icon{font-size:5rem;margin-bottom:1.5rem;display:block;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.08);opacity:.7}}
+.error-code{font-family:var(--font-display);font-size:clamp(4rem,10vw,7rem);font-weight:700;color:var(--blue-700);line-height:1;margin-bottom:.5rem}
+.error-title{font-family:var(--font-display);font-size:1.8rem;color:var(--blue-100);margin-bottom:1rem}
+.error-msg{color:var(--text-muted);font-size:1rem;margin-bottom:2rem;line-height:1.7}
+.error-alert{background:rgba(24,95,165,.12);border:1px solid rgba(55,138,221,.3);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:2rem;text-align:left;font-size:.9rem;color:var(--blue-200)}
+.error-alert strong{color:var(--blue-100);display:block;margin-bottom:.5rem}
+.error-details-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.error-detail-card{background:rgba(10,30,65,.7);border:1px solid rgba(55,138,221,.2);border-radius:10px;padding:1rem;text-align:left}
+.error-detail-card .label{font-size:.75rem;color:var(--blue-400);letter-spacing:1px;margin-bottom:.35rem}
+.error-detail-card .value{color:var(--text);font-size:.9rem}
+.retry-btn{display:inline-block;padding:.85rem 2.5rem;background:var(--blue-600);color:#fff;border-radius:50px;font-size:.95rem;font-weight:500;cursor:pointer;border:none;font-family:var(--font-body);transition:all .25s;margin:.5rem}
+.retry-btn:hover{background:var(--blue-500);transform:translateY(-2px)}
+.retry-btn.ghost{background:transparent;border:1px solid rgba(55,138,221,.4);color:var(--blue-200)}
+.retry-btn.ghost:hover{background:rgba(55,138,221,.12)}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.dot-red{background:#e24b4a;animation:blink 1.5s infinite}
+.dot-yellow{background:#ef9f27}
+.dot-green{background:#639922}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.noise-lines{width:100%;height:60px;display:flex;align-items:flex-end;justify-content:center;gap:3px;margin:1.5rem auto}
+.noise-lines span{width:4px;border-radius:2px;background:rgba(55,138,221,.25);animation:noise .5s ease-in-out infinite alternate}
+.noise-lines span:nth-child(odd){animation-duration:.4s}
+.noise-lines span:nth-child(even){animation-duration:.7s}
+@keyframes noise{from{height:4px;opacity:.2}to{height:var(--h,30px);opacity:.5}}
+
+@media(max-width:900px){
+  .navbar{padding:1rem 1.5rem}
+  .nav-links{display:none;flex-direction:column;position:absolute;top:70px;left:0;right:0;background:rgba(4,14,30,.97);padding:1rem;border-bottom:1px solid rgba(55,138,221,.2);z-index:99}
+  .nav-links.open{display:flex}
+  .nav-toggle{display:block}
+  .hero{flex-direction:column;text-align:center;padding:4rem 1.5rem 3rem;min-height:auto;gap:3rem}
+  .hero-sub{margin:0 auto 2rem}
+  .hero-btns{justify-content:center}
+  .hero-visual{display:none}
+  .stat{padding:.5rem 1.5rem}
+  .stat-divider{display:none}
+  .about-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .page-content{padding:3rem 1.5rem}
+  .page-header{padding:5rem 1.5rem 3rem}
+  .footer{flex-direction:column;text-align:center}
+  .error-details-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-logo" onclick="showPage('home')">🎵 Notaların Dünyası</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Ana Sayfa</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">Hakkımda</a></li>
+    <li><a onclick="showPage('genres')" id="nav-genres">Müzik Türleri</a></li>
+    <li><a onclick="showPage('instruments')" id="nav-instruments">Enstrümanlar</a></li>
+    <li><a onclick="showPage('playlist')" id="nav-playlist">Playlist</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">İletişim</a></li>
+  </ul>
+  <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+</nav>
+
+
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="wave wave1"></div><div class="wave wave2"></div><div class="wave wave3"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-tag">HOBİM</p>
+      <h1 class="hero-title">Müziğin <em>Büyülü</em><br>Dünyasına Hoş Geldiniz</h1>
+      <p class="hero-sub">Notalar, ritimler ve melodilerle dolu bu yolculukta müziğin hayatıma kattığı renkleri keşfedin.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('about')">Hikayemi Oku</button>
+        <button class="btn-ghost" onclick="showPage('genres')">Müzik Türleri →</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="vinyl"><div class="vinyl-inner"></div><div class="vinyl-center"></div></div>
+      <div class="sound-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+  </section>
+
+  <section class="stats-strip">
+    <div class="stat"><span class="stat-num">4+</span><span class="stat-label">Yıllık Yolculuk</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><span class="stat-num">2</span><span class="stat-label">Enstrüman</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><span class="stat-num">∞</span><span class="stat-label">Dinlenen Şarkı</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><span class="stat-num">🎬</span><span class="stat-label">Cover Hesabım Var</span></div>
+  </section>
+
+  <section class="features">
+    <h2 class="section-title">Müzikle Geçirdiğim <em>Yolculuk</em></h2>
+    <div class="cards-grid">
+      <div class="card card-blue" onclick="showPage('genres')">
+        <div class="card-icon">🎸</div><h3>Müzik Türleri</h3>
+        <p>Rock'tan klasiğe, caz'dan elektronik müziğe kadar keşfettiğim her türün hikayesi.</p>
+        <span class="card-link">Keşfet →</span>
+      </div>
+      <div class="card card-mid" onclick="showPage('instruments')">
+        <div class="card-icon">🪗</div><h3>Enstrümanlar</h3>
+        <p>Gitar ve ukulele... Çaldığım ve öğrenmek istediğim aletler.</p>
+        <span class="card-link">İncele →</span>
+      </div>
+      <div class="card card-dark" onclick="showPage('playlist')">
+        <div class="card-icon">🎧</div><h3>Playlist</h3>
+        <p>Sabah uyanışından gece sessizliğine kadar her ruh haline özel çalma listelerim.</p>
+        <span class="card-link">Dinle →</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote-section">
+    <blockquote><span class="quote-mark">"</span>Müzik, dünyanın gizli matematik sırlarını hissettiren ve evrenin dilidir.<span class="quote-mark">"</span></blockquote>
+    <cite>— Gottfried Leibniz</cite>
+  </section>
+
+  <footer class="footer">
+    <p>© 2025 Notaların Dünyası · Müzik hobisine adanmış bir köşe 🎵</p>
+    <nav class="footer-nav">
+      <a onclick="showPage('home')">Ana Sayfa</a>
+      <a onclick="showPage('about')">Hakkımda</a>
+      <a onclick="showPage('contact')">İletişim</a>
+      <a onclick="showPage('error')">Hata Sayfası</a>
+    </nav>
+  </footer>
+</div>
+
+
+<div id="page-about" class="page">
+  <div class="page-header">
+    <div class="tag">KİM BENİM</div>
+    <h1>Müzikle <em>Büyüyen</em> Biri</h1>
+    <p>Bir hobi nasıl tutkuya dönüşür? Benim hikayem tam olarak böyle başladı.</p>
+  </div>
+  <div class="page-content">
+    <div class="about-grid">
+      <div><div class="about-avatar">🎸</div></div>
+      <div class="about-text">
+        <h2>Merhaba, Ben <em>Bir Müzik Tutkunuyum</em></h2>
+        <p>Müzikle yolculuğum 11 yaşında gitar dersleriyle başladı — ama o dönem uzun sürmedi. Bir ay sonra bırakmak zorunda kaldım. Ama bi gün bu yolda gideceğimden emindim</p>
+        <p>13 yaşında bir şey değişti. Gitarı tekrar elime aldım, bu sefer kimseye sormadan, hiç ders almadan. YouTube videoları, akort uygulamaları ve sonsuz deneme-yanılma ile kendim öğrendim. O süreç bana müziği gerçekten sevdiğimi gösterdi.</p>
+        <p>15 yaşında ukulele'yle tanıştım — taşıması kolay, sesi neşeli, ruhu özgür. Şu an cover'lar yaptığım bir hesabım var; öğrendiklerimi ve sevdiğim şarkıları kayıt altına alıp paylaşıyorum.</p>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-year">11 Yaş</div><div class="timeline-text">İlk gitar dersleri — heyecanla başladım, bir ay sonra bıraktım. Ama tohum ekilmişti.</div></div>
+          <div class="timeline-item"><div class="timeline-year">13 Yaş</div><div class="timeline-text">Gitarı sıfırdan, kendi kendime öğrendim. Hiç ders almadan, sadece azim ve merakla.</div></div>
+          <div class="timeline-item"><div class="timeline-year">15 Yaş</div><div class="timeline-text">İlk ukulele'm geldi. O küçük aletle büyük bir aşk başladı.</div></div>
+          <div class="timeline-item"><div class="timeline-year">Şimdi</div><div class="timeline-text">Cover hesabımda sevdiğim şarkıları paylaşıyorum. Müzik artık sadece bir hobi değil, kimliğimin bir parçası.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <p>© 2025 Notaların Dünyası · Müzik hobisine adanmış bir köşe 🎵</p>
+    <nav class="footer-nav"><a onclick="showPage('home')">Ana Sayfa</a><a onclick="showPage('contact')">İletişim</a></nav>
+  </footer>
+</div>
+
+<div id="page-genres" class="page">
+  <div class="page-header">
+    <div class="tag">KEŞFET</div>
+    <h1>Sevdiğim <em>Müzik Türleri</em></h1>
+    <p>Rock'tan caza, klasikten elektroniğe — müziğin farklı yüzleriyle yaptığım yolculuk.</p>
+  </div>
+  <div class="page-content">
+    <div class="genre-grid">
+      <div class="genre-card"><div class="genre-emoji">🎸</div><h3>Rock & Alternative</h3><p>Distorted gitarlar, güçlü davullar ve o enerjinin yarattığı katharsis. Led Zeppelin'den Radiohead'e uzanan geniş bir evren.</p><span class="genre-badge">⭐ En Favori</span></div>
+      <div class="genre-card"><div class="genre-emoji">🎷</div><h3>Caz</h3><p>Doğaçlamanın sanatı. Her notanın anlık kararla doğduğu bu tür, müziği yeni bir boyuta taşıyor. Miles Davis beni değiştirdi.</p><span class="genre-badge">🌙 Gece Müziği</span></div>
+      <div class="genre-card"><div class="genre-emoji">🎻</div><h3>Klasik Müzik</h3><p>Bach'ın matematiği, Beethoven'in tutku dolu senfonileri, Chopin'in melankolik noktürnleri... Zaman aşımı olmayan güzellik.</p><span class="genre-badge">🏛️ Zamansız</span></div>
+      <div class="genre-card"><div class="genre-emoji">🎹</div><h3>Blues & Soul</h3><p>Acıyı melodiye dönüştürmenin sanatı. B.B. King'in gitarından yükselen o inleme ses, hiçbir şeye benzemez.</p><span class="genre-badge">💙 Derin Hisler</span></div>
+      <div class="genre-card"><div class="genre-emoji">🎛️</div><h3>Elektronik & Ambient</h3><p>Çalışırken, odaklanırken... Brian Eno'nun ambientinden modern üreticilere kadar tüm bir dünya.</p><span class="genre-badge">🔊 Odak Müziği</span></div>
+      <div class="genre-card"><div class="genre-emoji">🎤</div><h3>Indie Folk</h3><p>Akustik gitarlar, içten sözler ve o samimi dokunuş. Bon Iver, Fleet Foxes ve Nick Drake benim için özel bir yer tutar.</p><span class="genre-badge">🍂 Sonbahar Hissi</span></div>
+    </div>
+    <div class="quote-section" style="padding:4rem 0 0">
+      <blockquote><span class="quote-mark">"</span>Müzik, hayal gücümüzü serbest bırakır; hayat ise hayal gücümüzü sınırlar.<span class="quote-mark">"</span></blockquote>
+      <cite>— Jacques Bossuet</cite>
+    </div>
+  </div>
+  <footer class="footer">
+    <p>© 2025 Notaların Dünyası · Müzik hobisine adanmış bir köşe 🎵</p>
+    <nav class="footer-nav"><a onclick="showPage('home')">Ana Sayfa</a><a onclick="showPage('contact')">İletişim</a></nav>
+  </footer>
+</div>
+
+<div id="page-instruments" class="page">
+  <div class="page-header">
+    <div class="tag">ENSTRÜMANLARIM</div>
+    <h1>Çaldığım <em>Aletler</em></h1>
+    <p>Her enstrüman yeni bir dil gibidir. Öğrendiklerim ve öğrenmek istediklerim.</p>
+  </div>
+  <div class="page-content">
+    <div class="instrument-list">
+      <div class="instrument-item">
+        <div class="instrument-icon">🎸</div>
+        <div class="instrument-info">
+          <h3>Akustik Gitar</h3>
+          <p>13 yaşında sıfırdan, kendi kendime öğrendiğim enstrüman. Hem fingerpicking hem de akor çalmayı kendim keşfettim. Cover'larımda en çok kullandığım alet.</p>
+          <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+          <small style="color:var(--text-muted);font-size:.8rem">Seviye: İleri — %80</small>
+        </div>
+      </div>
+      <div class="instrument-item">
+        <div class="instrument-icon">🪗</div>
+        <div class="instrument-info">
+          <h3>Ukulele</h3>
+          <p>15 yaşında hayatıma girdi. Hafif, neşeli ve her yere götürülebilir. Cover hesabımda gitarın yanında sık sık ukulele de çalıyorum.</p>
+          <div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div>
+          <small style="color:var(--text-muted);font-size:.8rem">Seviye: Orta-İleri — %70</small>
+        </div>
+      </div>
+      <div class="instrument-item" style="opacity:.6;border-style:dashed">
+        <div class="instrument-icon">🎹</div>
+        <div class="instrument-info">
+          <h3>Piyano <span style="font-size:.75rem;color:var(--blue-400);margin-left:.5rem">Hedefim</span></h3>
+          <p>Henüz çalmıyorum ama öğrenmek istiyorum. Müzik teorisini gitardan öğrendiğim için daha kolay olacağını düşünüyorum.</p>
+          <div class="progress-bar"><div class="progress-fill" style="width:5%"></div></div>
+          <small style="color:var(--text-muted);font-size:.8rem">Seviye: Henüz Başlamadım</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <p>© 2025 Notaların Dünyası · Müzik hobisine adanmış bir köşe 🎵</p>
+    <nav class="footer-nav"><a onclick="showPage('home')">Ana Sayfa</a><a onclick="showPage('contact')">İletişim</a></nav>
+  </footer>
+</div>
+
+<div id="page-playlist" class="page">
+  <div class="page-header">
+    <div class="tag">ÇALMA LİSTELERİM</div>
+    <h1>Her Ruh Haline <em>Bir Liste</em></h1>
+    <p>Sabah enerjisinden gece huzuruna... Müzikle her ânın bir rengi var.</p>
+  </div>
+  <div class="page-content">
+    <div class="now-playing">
+      <div class="now-disc">🎵</div>
+      <div class="now-info">
+        <div class="now-title" id="np-title">Wish You Were Here</div>
+        <div class="now-artist" id="np-artist">Pink Floyd</div>
+        <div class="now-controls">
+          <button class="ctrl-btn" onclick="prevTrack()">⏮</button>
+          <button class="ctrl-btn play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+          <button class="ctrl-btn" onclick="nextTrack()">⏭</button>
+        </div>
+      </div>
+      <div style="color:var(--text-muted);font-size:.85rem">Şu An Çalıyor</div>
+    </div>
+    <div class="playlist-container">
+      <div class="playlist-header"><h3>☀️ Sabah Enerjisi</h3><span style="color:var(--text-muted);font-size:.85rem">5 parça</span></div>
+      <div class="track" onclick="setTrack('Here Comes the Sun','The Beatles')"><span class="track-num">1</span><span class="track-icon">🎸</span><div class="track-info"><div class="track-title">Here Comes the Sun</div><div class="track-artist">The Beatles</div></div><span class="track-duration">3:06</span></div>
+      <div class="track" onclick="setTrack('Good Day Sunshine','The Beatles')"><span class="track-num">2</span><span class="track-icon">🎹</span><div class="track-info"><div class="track-title">Good Day Sunshine</div><div class="track-artist">The Beatles</div></div><span class="track-duration">2:10</span></div>
+      <div class="track" onclick="setTrack('Walking on Sunshine','Katrina and the Waves')"><span class="track-num">3</span><span class="track-icon">🎤</span><div class="track-info"><div class="track-title">Walking on Sunshine</div><div class="track-artist">Katrina and the Waves</div></div><span class="track-duration">3:58</span></div>
+      <div class="track" onclick="setTrack('September','Earth, Wind & Fire')"><span class="track-num">4</span><span class="track-icon">🎷</span><div class="track-info"><div class="track-title">September</div><div class="track-artist">Earth, Wind & Fire</div></div><span class="track-duration">3:35</span></div>
+      <div class="track" onclick="setTrack('Mr. Blue Sky','Electric Light Orchestra')"><span class="track-num">5</span><span class="track-icon">🎹</span><div class="track-info"><div class="track-title">Mr. Blue Sky</div><div class="track-artist">Electric Light Orchestra</div></div><span class="track-duration">5:03</span></div>
+    </div>
+    <div class="playlist-container">
+      <div class="playlist-header"><h3>🌙 Gece Sakinliği</h3><span style="color:var(--text-muted);font-size:.85rem">5 parça</span></div>
+      <div class="track" onclick="setTrack('Wish You Were Here','Pink Floyd')"><span class="track-num">1</span><span class="track-icon">🎸</span><div class="track-info"><div class="track-title">Wish You Were Here</div><div class="track-artist">Pink Floyd</div></div><span class="track-duration">5:40</span></div>
+      <div class="track" onclick="setTrack('Skinny Love','Bon Iver')"><span class="track-num">2</span><span class="track-icon">🎤</span><div class="track-info"><div class="track-title">Skinny Love</div><div class="track-artist">Bon Iver</div></div><span class="track-duration">3:58</span></div>
+      <div class="track" onclick="setTrack('So What','Miles Davis')"><span class="track-num">3</span><span class="track-icon">🎷</span><div class="track-info"><div class="track-title">So What</div><div class="track-artist">Miles Davis</div></div><span class="track-duration">9:22</span></div>
+      <div class="track" onclick="setTrack('Clair de Lune','Claude Debussy')"><span class="track-num">4</span><span class="track-icon">🎹</span><div class="track-info"><div class="track-title">Clair de Lune</div><div class="track-artist">Claude Debussy</div></div><span class="track-duration">5:00</span></div>
+      <div class="track" onclick="setTrack('Fade to Black','Metallica')"><span class="track-num">5</span><span class="track-icon">🎸</span><div class="track-info"><div class="track-title">Fade to Black</div><div class="track-artist">Metallica</div></div><span class="track-duration">6:57</span></div>
+    </div>
+  </div>
+  <footer class="footer">
+    <p>© 2025 Notaların Dünyası · Müzik hobisine adanmış bir köşe 🎵</p>
+    <nav class="footer-nav"><a onclick="showPage('home')">Ana Sayfa</a><a onclick="showPage('contact')">İletişim</a></nav>
+  </footer>
+</div>
+
+<div id="page-contact" class="page">
+  <div class="page-header">
+    <div class="tag">İLETİŞİM</div>
+    <h1>Seninle <em>Müzik Konuşalım</em></h1>
+    <p>Bir öneri, favori şarkın ya da enstrüman tavsiyesi... Her mesajı severek okuyorum.</p>
+  </div>
+  <div class="page-content">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2>Merhaba 👋</h2>
+        <p>Müzik hakkında sohbet etmekten her zaman mutluluk duyarım. Favori albüm önerin mi var? Yazabilirsin!</p>
+        <div class="contact-item">
+          <div class="contact-item-icon">🎵</div>
+          <div><div style="color:var(--blue-200);font-weight:500">Cover Hesabım</div><div style="color:var(--text-muted);font-size:.9rem">Sosyal medyada cover paylaşıyorum</div></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div><div style="color:var(--blue-200);font-weight:500">Şehir</div><div style="color:var(--text-muted);font-size:.9rem">Türkiye 🇹🇷</div></div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div id="form-success" style="display:none;text-align:center;padding:2rem">
+          <div style="font-size:3rem;margin-bottom:1rem">🎶</div>
+          <h3 style="font-family:var(--font-display);color:var(--blue-100);margin-bottom:.5rem">Mesajın Alındı!</h3>
+          <p style="color:var(--text-muted)">En kısa sürede geri döneceğim. Müzikle kalın! 🎵</p>
+        </div>
+        <div id="form-fields">
+          <div class="form-group"><label>Adın</label><input type="text" id="f-name" placeholder="Adın Soyadın"></div>
+          <div class="form-group"><label>E-posta</label><input type="email" id="f-email" placeholder="ornek@mail.com"></div>
+          <div class="form-group"><label>Konu</label><input type="text" placeholder="Müzik önerisi, soru..."></div>
+          <div class="form-group"><label>Mesajın</label><textarea id="f-msg" placeholder="Müzikle ilgili ne düşünüyorsun?"></textarea></div>
+          <button class="btn-primary" style="width:100%;border:none;font-family:var(--font-body);font-size:1rem" onclick="sendForm()">Gönder 🎵</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <p>© 2025 Notaların Dünyası · Müzik hobisine adanmış bir köşe 🎵</p>
+    <nav class="footer-nav"><a onclick="showPage('home')">Ana Sayfa</a><a onclick="showPage('about')">Hakkımda</a></nav>
+  </footer>
+</div>
+
+<div id="page-error" class="page">
+  <div class="error-page">
+    <div class="error-container">
+      <span class="error-icon" id="error-icon">📡</span>
+      <div class="error-code" id="error-code">404</div>
+      <h1 class="error-title" id="error-title">Sinyal Kesildi</h1>
+      <div class="noise-lines" id="noise-bars"></div>
+      <p class="error-msg" id="error-msg">Aradığın sayfa bulunamadı veya internet bağlantında bir sorun oluştu. Müzik gibi — bazen sinyali kaybedersin ama ritmi asla kaybetme.</p>
+      <div class="error-alert">
+        <strong id="alert-title">🔴 Bağlantı Hatası Tespit Edildi</strong>
+        <span id="alert-body">Sayfa yüklenirken bir sorun oluştu. İnternet bağlantını kontrol et ve tekrar dene.</span>
+      </div>
+      <div class="error-details-grid">
+        <div class="error-detail-card"><div class="label">HATA KODU</div><div class="value" id="d-code"><span class="status-dot dot-red"></span>404 Not Found</div></div>
+        <div class="error-detail-card"><div class="label">DURUM</div><div class="value" id="d-status"><span class="status-dot dot-red"></span>Bağlantı Yok</div></div>
+        <div class="error-detail-card"><div class="label">İNTERNET</div><div class="value" id="d-internet"><span class="status-dot dot-yellow"></span>Kontrol Ediliyor…</div></div>
+        <div class="error-detail-card"><div class="label">ZAMAN</div><div class="value" id="d-time">--:--</div></div>
+      </div>
+      <div>
+        <button class="retry-btn" onclick="retryPage()">🔄 Tekrar Dene</button>
+        <button class="retry-btn ghost" onclick="showPage('home')">🏠 Ana Sayfaya Dön</button>
+      </div>
+      <p style="color:var(--text-muted);font-size:.82rem;margin-top:2rem">Sorun devam ederse: İnternet bağlantını kontrol et · Sayfayı yenile · Tarayıcı önbelleğini temizle</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  const nav = document.getElementById('nav-' + name);
+  if (nav) nav.classList.add('active');
+  window.scrollTo(0, 0);
+  document.getElementById('navLinks').classList.remove('open');
+  if (name === 'error') { checkConnection(); initNoiseBars(); startClock(); }
+}
+
+function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+
+// Playlist
+let isPlaying = false;
+const tracks = [['Wish You Were Here','Pink Floyd'],['So What','Miles Davis'],['Blackbird','The Beatles'],['Fade to Black','Metallica'],['Skinny Love','Bon Iver'],['Clair de Lune','Debussy']];
+let trackIdx = 0;
+function togglePlay() { isPlaying = !isPlaying; document.getElementById('playBtn').textContent = isPlaying ? '⏸' : '▶'; }
+function setTrack(t, a) { document.getElementById('np-title').textContent = t; document.getElementById('np-artist').textContent = a; isPlaying = true; document.getElementById('playBtn').textContent = '⏸'; }
+function nextTrack() { trackIdx = (trackIdx+1) % tracks.length; setTrack(...tracks[trackIdx]); }
+function prevTrack() { trackIdx = (trackIdx-1+tracks.length) % tracks.length; setTrack(...tracks[trackIdx]); }
+
+// Form
+function sendForm() {
+  if (!document.getElementById('f-name').value.trim() || !document.getElementById('f-email').value.trim() || !document.getElementById('f-msg').value.trim()) { alert('Lütfen adını, e-postanı ve mesajını yaz!'); return; }
+  document.getElementById('form-fields').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+}
+
+// Error page
+let clockStarted = false;
+function initNoiseBars() {
+  const b = document.getElementById('noise-bars');
+  if (b.children.length) return;
+  for (let i = 0; i < 30; i++) { const s = document.createElement('span'); s.style.setProperty('--h',(Math.random()*50+10)+'px'); s.style.animationDelay=(Math.random()*.5)+'s'; b.appendChild(s); }
+}
+function checkConnection() {
+  const on = navigator.onLine;
+  document.getElementById('d-internet').innerHTML = on ? '<span class="status-dot dot-green"></span>Bağlı' : '<span class="status-dot dot-red"></span>Bağlantı Yok';
+  document.getElementById('d-status').innerHTML = on ? '<span class="status-dot dot-yellow"></span>Sayfa Bulunamadı' : '<span class="status-dot dot-red"></span>Çevrimdışı';
+  document.getElementById('alert-title').textContent = on ? '⚠️ Sayfa Bulunamadı (404)' : '🔴 İnternet Bağlantısı Yok';
+  document.getElementById('alert-body').textContent = on ? 'İnternetin çalışıyor ama bu sayfa mevcut değil. Ana sayfaya dönebilirsin.' : 'Cihazın internete bağlı değil. Wi-Fi ya da mobil verileni kontrol et.';
+  document.getElementById('error-icon').textContent = on ? '🔍' : '📡';
+  document.getElementById('error-code').textContent = on ? '404' : 'ERR';
+  document.getElementById('error-title').textContent = on ? 'Nota Kayboldu' : 'Sinyal Yok';
+  document.getElementById('d-code').innerHTML = on ? '<span class="status-dot dot-yellow"></span>404 Not Found' : '<span class="status-dot dot-red"></span>ERR_INTERNET';
+}
+function startClock() {
+  if (clockStarted) return; clockStarted = true;
+  setInterval(() => { const el = document.getElementById('d-time'); if (el) el.textContent = new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }, 1000);
+}
+function retryPage() {
+  const btn = event.target; btn.textContent = '⏳ Deneniyor…'; btn.disabled = true;
+  setTimeout(() => { checkConnection(); btn.textContent = '🔄 Tekrar Dene'; btn.disabled = false; }, 1500);
+}
+window.addEventListener('online', checkConnection);
+window.addEventListener('offline', checkConnection);
+</script>
+</body>
+</html>
